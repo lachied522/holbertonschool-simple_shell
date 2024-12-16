@@ -6,10 +6,13 @@
 #include <sys/wait.h>
 
 /**
- * main -
+ * main - main function
+ * @argc: argument count
+ * @argv: argument vector
+ * @env: environment
  * Return: Always 0.
  */
-int main(int argc, char *argv[], char **env)
+int main(__attribute__((unused)) int argc, char *argv[], char **env)
 {
 	char *program = argv[0];
 	char **arguments;
@@ -22,8 +25,6 @@ int main(int argc, char *argv[], char **env)
 		if (pid == -1)
 		{
 			perror("Error:");
-		//	free(arguments);
-		//	exit(98);
 		}
 		else if (pid == 0)
 		{
@@ -32,12 +33,11 @@ int main(int argc, char *argv[], char **env)
 
 			if (execve(arguments[0], arguments, env) == -1)
 				perror("Error");
-				//exit(98);
 		}
 		else
 		{
 			wait(&pid);
-			execve(program, argv, env);		
+			execve(program, argv, env);
 		}
 	}
 	else

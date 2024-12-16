@@ -5,10 +5,9 @@
 
 /**
  * get_user_input - uses getline to accept user input
- * @s: program name
  * Return: user input
  */
-char **get_user_input(char *s)
+char **get_user_input()
 {
 	char *buffer = NULL;
 	size_t n = 32;
