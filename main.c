@@ -31,6 +31,8 @@ int main(__attribute__((unused)) int argc, char *argv[], char **env)
 			printf("%s: ", program);
 			arguments = get_user_input(program);
 
+			search_path(arguments[0], env);
+
 			if (execve(arguments[0], arguments, env) == -1)
 				perror("Error");
 		}
