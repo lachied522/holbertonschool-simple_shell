@@ -1,17 +1,27 @@
+#include "main.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 /**
- * main - execve example
- *
+ * main -
  * Return: Always 0.
  */
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char **env)
 {
-	printf("%s\n", argv[1]);
-	//if (execve(argv[0], argv, NULL) == -1)
-	//{
-	//	perror("Error:");
-	//}
+	char *program = argv[0];
+	char *input;
+
+	while (1 == 1)
+	{
+		input = get_user_input(program);
+		printf("Input: %s", input);
+
+		char *arguments[] = { input, NULL };
+
+		if (execve(input, arguments, env) == -1)
+			perror("Error");
+	}
+
 	return (0);
 }
