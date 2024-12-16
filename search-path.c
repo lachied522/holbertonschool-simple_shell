@@ -16,7 +16,6 @@ char *search_dir(char *s, char *dir)
 		{
 			if (strcmp(entry->d_name, s) == 0)
 			{
-				printf("Found it!");
 				path = strcat(dir, "/");
 				path = strcat(path, s);
 				closedir(d);
@@ -43,8 +42,6 @@ char *search_path(char *filename, char **env)
 	char *value;
 	char *dir;
 
-	printf("We are looking for %s\n", filename);
-
 	while (*ptr != NULL)
 	{
 		key = strtok(*ptr, "=");
@@ -59,7 +56,9 @@ char *search_path(char *filename, char **env)
 			{
 				dir = strtok(NULL, ":");
 				path = search_dir(filename, dir);
-				printf("%s", path);
+
+				if (path != NULL)
+					break;
 			}
 
 			break;
