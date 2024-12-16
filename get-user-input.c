@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "main.h"
 
 /**
@@ -6,13 +8,27 @@
  * @s: program name
  * Return: user input
  */
-char *get_user_input(char *s)
+char **get_user_input(char *s)
 {
 	char *buffer = NULL;
 	size_t n = 32;
 	size_t length;
+	char *token;
+	char **arguments = malloc(sizeof(char *) * 32);
+	int i = 0;
 
-	printf("%s: ", s);
 	length = getline(&buffer, &n, stdin);
-	return (buffer);
+
+	buffer[length - 1] = '\0';
+
+	token = strtok(buffer, " ");
+
+	while (token != NULL)
+	{
+		arguments[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+
+	return (arguments);
 }

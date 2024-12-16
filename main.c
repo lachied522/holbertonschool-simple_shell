@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
+#include <sys/wait.h>
 
 /**
  * main -
@@ -10,16 +12,39 @@
 int main(int argc, char *argv[], char **env)
 {
 	char *program = argv[0];
-	char *input;
+	char **arguments;
+	pid_t pid;
 
-	while (1 == 1)
+	if (isatty(0) == 1)
 	{
-		input = get_user_input(program);
-		printf("Input: %s", input);
+		pid = fork();
 
-		char *arguments[] = { input, NULL };
+		if (pid == -1)
+		{
+			perror("Error:");
+		//	free(arguments);
+		//	exit(98);
+		}
+		else if (pid == 0)
+		{
+			printf("%s: ", program);
+			arguments = get_user_input(program);
 
-		if (execve(input, arguments, env) == -1)
+			if (execve(arguments[0], arguments, env) == -1)
+				perror("Error");
+				//exit(98);
+		}
+		else
+		{
+			wait(&pid);
+			execve(program, argv, env);		
+		}
+	}
+	else
+	{
+		arguments = get_user_input(program);
+
+		if (execve(arguments[0], arguments, env) == -1)
 			perror("Error");
 	}
 
