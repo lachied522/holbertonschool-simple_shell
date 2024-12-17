@@ -2,19 +2,22 @@
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
+#include <stdlib.h>
 
-char *search_dir(char *s, char *dir)
+char *search_dir(char *filename, char *dir)
 {
 	DIR *d;
 	struct dirent *entry;
 	char *path;
+
+	path = malloc(1000);
 
 	d = opendir(dir);
 	if (d)
 	{
 		while ((entry = readdir(d)) != NULL)
 		{
-			if (strcmp(entry->d_name, s) == 0)
+			if (strcmp(entry->d_name, filename) == 0)
 			{
 				path = strcat(dir, "/");
 				path = strcat(path, s);
@@ -24,6 +27,8 @@ char *search_dir(char *s, char *dir)
 		}
 		closedir(d);
 	}
+
+	free(path);
 
 	return (NULL);
 }
@@ -37,34 +42,36 @@ char *search_dir(char *s, char *dir)
 char *search_path(char *filename, char **env)
 {
 	char *path;
-	char **ptr = env;
-	char *key;
-	char *value;
+	char *path_var;
 	char *dir;
+	int i;
 
-	while (*ptr != NULL)
+	path = NULL;
+	path_var = NULL;
+	i = 0;
+
+	while (env[i] != NULL)
 	{
-		key = strtok(*ptr, "=");
-		
-		if (strcmp(key, "PATH") == 0)
+		if (strcmp(env[i], "PATH=", 5) == 0)
 		{
-			value = strtok(NULL, "=");
-
-			dir = strtok(value, ":");
-
-			while (dir != NULL)
-			{
-				dir = strtok(NULL, ":");
-				path = search_dir(filename, dir);
-
-				if (path != NULL)
-					break;
-			}
-
+			/* this skips the "PATH=" prefix */
+			path_var = env[i] + 5;
 			break;
 		}
-		ptr++;
+		i++;
 	}
 
-	return (path);
+	if (path_var)
+	{
+		dir = strtok(path_var, ":");
+		while (dir != NULL)
+		{
+			path = search_dir(filename, dir);
+			if (path)
+				return (path);
+			dir = strtok(NULL, ":");
+		}
+	}
+
+	return (NULL);
 }
