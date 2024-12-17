@@ -67,6 +67,18 @@ char *search_path(char *filename, char **env)
 	if (!path)
 	{
 		fprintf(stderr, "Error: PATH environment variable not found\n");
+		return (NULL);
 	}
+
+	dir = strtok(path, ":");
+	while (dir != NULL)
+	{
+		full_path = search_dir(filename, dir);
+		if (full_path)
+			return (full_path);
+		dir = strtok(NULL, ":");
+	}
+
+
 	return (NULL);
 }
