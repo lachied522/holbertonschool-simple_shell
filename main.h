@@ -1,3 +1,6 @@
+#ifndef MAIN
+#define MAIN
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -5,9 +8,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#ifndef MAIN
-#define MAIN
-
+void execute(char **arguments, char **env);
 char **get_user_input();
 char *search_path(char *filename, char **env);
 

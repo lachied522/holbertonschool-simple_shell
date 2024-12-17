@@ -40,12 +40,16 @@ int main(int argc, char *argv[], char **env)
 
 	while (1)
 	{
+		/* in interactive move */
 		if (isatty(0))
 			printf("$ ");
 
 		arguments = get_user_input();
 		if (arguments[0] == NULL)
+		{
+			free(arguments);
 			continue;
+		}
 
 		command = search_path(arguments[0], env);
 		if (command == NULL)

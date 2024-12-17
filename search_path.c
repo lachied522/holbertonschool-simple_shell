@@ -44,12 +44,12 @@ char *search_dir(char *filename, char *dir)
 char *search_path(char *filename, char **env)
 {
 	char *path;
-	char *path_var;
+	char *full_path;
 	char *dir;
 	int i;
 
 	path = NULL;
-	path_var = NULL;
+	full_path = NULL;
 	i = 0;
 
 	while (env[i] != NULL)
@@ -58,20 +58,20 @@ char *search_path(char *filename, char **env)
 		if (strncmp(env[i], "PATH=", 5) == 0)
 		{
 			/* this skips the "PATH=" prefix */
-			path_var = env[i] + 5;
+			path = env[i] + 5;
 			break;
 		}
 		i++;
 	}
 
-	if (path_var)
+	if (path)
 	{
-		dir = strtok(path_var, ":");
+		dir = strtok(path, ":");
 		while (dir != NULL)
 		{
-			path = search_dir(filename, dir);
-			if (path)
-				return (path);
+			full_path = search_dir(filename, dir);
+			if (full_path)
+				return (full_path);
 			dir = strtok(NULL, ":");
 		}
 	}

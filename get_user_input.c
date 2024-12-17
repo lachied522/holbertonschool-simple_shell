@@ -14,6 +14,13 @@ char **get_user_input()
 
 	getline(&buffer, &n, stdin);
 
+	if (getline(&buffer, &n, stdin) == -1)
+	{
+		free(buffer);
+		/* exit on CTRL+D */
+		exit(0);
+	}
+
 	buffer[strlen(buffer) - 1] = '\0';
 
 	token = strtok(buffer, " ");
@@ -25,7 +32,6 @@ char **get_user_input()
 	}
 
 	arguments[i] = NULL;
-	free(buffer);
 
 	return (arguments);
 }
