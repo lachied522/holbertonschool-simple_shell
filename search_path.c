@@ -21,8 +21,8 @@ char *search_dir(char *filename, char *dir)
 		{
 			if (strcmp(entry->d_name, filename) == 0)
 			{
-				/* make new path using a buffer with enough capacity to hold result */
-				snprintf(path, 1000, "%s%s", dir , filename);
+		/* make new path using a buffer with enough capacity to hold result */
+				snprintf(path, 1000, "%s/%s", dir , filename);
 				closedir(d);
 				return (path);
 			}
@@ -64,17 +64,9 @@ char *search_path(char *filename, char **env)
 		i++;
 	}
 
-	if (path)
+	if (!path)
 	{
-		dir = strtok(path, ":");
-		while (dir != NULL)
-		{
-			full_path = search_dir(filename, dir);
-			if (full_path)
-				return (full_path);
-			dir = strtok(NULL, ":");
-		}
+		fprintf(stderr, "Error: PATH environment variable not found\n");
 	}
-
 	return (NULL);
 }

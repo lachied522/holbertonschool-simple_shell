@@ -12,8 +12,6 @@ char **get_user_input()
 	char **arguments = malloc(sizeof(char *) * 32);
 	int i = 0;
 
-	getline(&buffer, &n, stdin);
-
 	if (getline(&buffer, &n, stdin) == -1)
 	{
 		free(buffer);
@@ -32,6 +30,7 @@ char **get_user_input()
 	}
 
 	arguments[i] = NULL;
+	free(buffer);
 
 	return (arguments);
 }
