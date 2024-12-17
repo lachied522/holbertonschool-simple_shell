@@ -42,7 +42,7 @@ int main(int argc, char *argv[], char **env)
 	{
 		/* in interactive move */
 		if (isatty(0))
-			printf("$ ");
+			printf("#cisfun$ ");
 
 		arguments = get_user_input();
 		if (arguments[0] == NULL)
