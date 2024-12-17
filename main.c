@@ -8,22 +8,20 @@
 
 void execute(char **arguments, char **env)
 {
-	char *command;
+	pid_t pid = fork();
 
-	if (execve(arguments[0], arguments, env) == -1)
+	if (pid == -1)
+		perror("Error");
+
+	if (pid == 0)
 	{
-		command = search_path(arguments[0], env);
-
-		if (command == NULL)
-			perror("Error");
-
-		arguments[0] = command;
-		
 		if (execve(arguments[0], arguments, env) == -1)
-			perror("Error");
+			perror(arguments[0]);
+		exit(1);
 	}
+	else
+		wait(NULL);
 }
-
 
 /**
  * main - main function
@@ -34,37 +32,24 @@ void execute(char **arguments, char **env)
  */
 int main(__attribute__((unused)) int argc, char *argv[], char **env)
 {
-	char *program = argv[0];
 	char **arguments;
-	char *command;
-	pid_t pid;
 
-	if (isatty(0) == 1)
+	while (1)
 	{
-		pid = fork();
+		if (isatty(0))
+			printf("$ ");
 
-		if (pid == -1)
-		{
-			perror("Error:");
-		}
-		else if (pid == 0)
-		{
-			printf("%s: ", program);
-			arguments = get_user_input(program);
+		arguments = get_user_input();
+		if (arguments[0] == NULL)
+			continue;
 
-			execute(arguments, env);
-		}
+		char *command = search_path(arguments[0], env);
+		if (command == NULL)
+			perror(arguments[0]);
 		else
-		{
-			wait(&pid);
-			execve(program, argv, env);
-		}
-	}
-	else
-	{
-		arguments = get_user_input(program);
+			execute(arguments, env);
 
-		execute(arguments, env);
+		free(arguments);
 	}
 
 	return (0);
