@@ -14,6 +14,12 @@ char *search_dir(char *filename, char *dir)
 
 	path = malloc(1000);
 
+	if (!path)
+	{
+		perror("malloc");
+		return (NULL);;
+	}
+
 	d = opendir(dir);
 	if (d)
 	{
@@ -78,7 +84,6 @@ char *search_path(char *filename, char **env)
 			return (full_path);
 		dir = strtok(NULL, ":");
 	}
-
 
 	return (NULL);
 }
