@@ -1,11 +1,8 @@
-#include "main.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-
-
+/*
+ * execute - forks and executes process
+ * @arguments: arguments to execute
+ * @env: environment variables of system
+ */
 void execute(char **arguments, char **env)
 {
 	pid_t pid = fork();
@@ -27,10 +24,10 @@ void execute(char **arguments, char **env)
  * main - main function
  * @argc: argument count
  * @argv: argument vector
- * @env: environment
+ * @env: environment variables of system
  * Return: Always 0.
  */
-int main(__attribute__((unused)) int argc, char *argv[], char **env)
+int main(int argc, char *argv[], char **env)
 {
 	char **arguments;
 

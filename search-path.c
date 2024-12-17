@@ -1,9 +1,9 @@
-#include "main.h"
-#include <stdio.h>
-#include <string.h>
-#include <dirent.h>
-#include <stdlib.h>
-
+/*
+ * search_dir - searches directory for command
+ * @filename: name of file command is based on
+ * @dir: directory to search command
+ * Return: path to file if found, otherwise NULL
+ */
 char *search_dir(char *filename, char *dir)
 {
 	DIR *d;

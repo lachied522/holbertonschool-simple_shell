@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "main.h"
-
 /**
  * get_user_input - uses getline to accept user input
  * Return: user input
