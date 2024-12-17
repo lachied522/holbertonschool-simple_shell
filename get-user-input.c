@@ -10,24 +10,25 @@
 char **get_user_input()
 {
 	char *buffer = NULL;
-	size_t n = 32;
-	size_t length;
+	size_t n = 0;
 	char *token;
 	char **arguments = malloc(sizeof(char *) * 32);
 	int i = 0;
 
-	length = getline(&buffer, &n, stdin);
+	getline(&buffer, &n, stdin);
 
-	buffer[length - 1] = '\0';
+	buffer[strlen(buffer) - 1] = '\0';
 
 	token = strtok(buffer, " ");
-
 	while (token != NULL)
 	{
 		arguments[i] = token;
 		token = strtok(NULL, " ");
 		i++;
 	}
+
+	arguments[i] = NULL;
+	free(buffer);
 
 	return (arguments);
 }
