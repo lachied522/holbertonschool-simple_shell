@@ -1,3 +1,5 @@
+#include "main.h"
+
 /*
  * search_dir - searches directory for command
  * @filename: name of file command is based on

@@ -1,3 +1,5 @@
+#include "main.h"
+
 /*
  * execute - forks and executes process
  * @arguments: arguments to execute
