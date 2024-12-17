@@ -32,6 +32,11 @@ void execute(char **arguments, char **env)
 int main(int argc, char *argv[], char **env)
 {
 	char **arguments;
+	char *command;
+
+	/* unused variables */
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
@@ -42,7 +47,7 @@ int main(int argc, char *argv[], char **env)
 		if (arguments[0] == NULL)
 			continue;
 
-		char *command = search_path(arguments[0], env);
+		command = search_path(arguments[0], env);
 		if (command == NULL)
 			perror(arguments[0]);
 		else

@@ -21,8 +21,8 @@ char *search_dir(char *filename, char *dir)
 		{
 			if (strcmp(entry->d_name, filename) == 0)
 			{
-				path = strcat(dir, "/");
-				path = strcat(path, s);
+				/* make new path using a buffer with enough capacity to hold result */
+				snprintf(path, 1000, "%s%s", dir , filename);
 				closedir(d);
 				return (path);
 			}
@@ -54,7 +54,8 @@ char *search_path(char *filename, char **env)
 
 	while (env[i] != NULL)
 	{
-		if (strcmp(env[i], "PATH=", 5) == 0)
+		/* if first 5 characters of env[i] and PATH= match */
+		if (strncmp(env[i], "PATH=", 5) == 0)
 		{
 			/* this skips the "PATH=" prefix */
 			path_var = env[i] + 5;
