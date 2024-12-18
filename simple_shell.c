@@ -10,7 +10,10 @@ void execute(char **arguments, char **env)
 	pid_t pid = fork();
 
 	if (pid == -1)
+	{
 		perror("Error");
+		exit(EXIT_FAILURE);
+	}
 
 	if (pid == 0)
 	{
