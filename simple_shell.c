@@ -1,4 +1,12 @@
+#include <signal.h>
 #include "main.h"
+
+void handle_sigint(int sig)
+{
+	(void)sig;
+	printf("\n#cisfun$ ");
+	fflush(stdout);
+}
 
 /*
  * execute - forks and executes process
@@ -7,22 +15,45 @@
  */
 void execute(char **arguments, char **env)
 {
-	pid_t pid = fork();
+	char *command;
+	int status;
+	pid_t pid;
 
-	if (pid == -1)
+	if (arguments[0] == NULL)
+		return;
+
+	if (arguments[0][0] == '/' || arguments[0][0] == '.')
+		command = arguments[0];
+	else
+	{
+		command = search_path(arguments[0], env);
+
+		if (command == NULL)
+		{
+			fprintf(stderr, "%s: Command not found\n", arguments[0]);
+			return;
+		}
+	}
+
+	pid = fork();
+
+	if (pid < 0)
 	{
 		perror("Error");
+	}
+	else if (pid == 0)
+	{
+		execve(command, arguments, env);
+		perror("execve");
+		free(command);
 		exit(EXIT_FAILURE);
 	}
-
-	if (pid == 0)
-	{
-		if (execve(arguments[0], arguments, env) == -1)
-			perror(arguments[0]);
-		exit(1);
-	}
 	else
-		wait(NULL);
+	{
+		wait(&status);
+	}
+
+	free(command);
 }
 
 /**
@@ -35,11 +66,12 @@ void execute(char **arguments, char **env)
 int main(int argc, char *argv[], char **env)
 {
 	char **arguments;
-	char *command;
 
 	/* unused variables */
 	(void)argc;
 	(void)argv;
+
+	signal(SIGINT, handle_sigint);
 
 	while (1)
 	{
@@ -48,20 +80,18 @@ int main(int argc, char *argv[], char **env)
 			printf("#cisfun$ ");
 
 		arguments = get_user_input();
-		if (arguments[0] == NULL)
+
+		if (arguments == NULL)
+			break;
+
+		if (strcmp(arguments[0], "exit") == 0)
 		{
 			free(arguments);
-			continue;
+			break;
 		}
-
-		command = search_path(arguments[0], env);
-		if (command == NULL)
-			perror(arguments[0]);
-		else
-			execute(arguments, env);
-
+		execute(arguments, env);
 		free(arguments);
 	}
 
 	return (0);
-}
+} 

@@ -1,3 +1,4 @@
+
 #include "main.h"
 
 /*
@@ -6,18 +7,22 @@
  * @dir: directory to search command
  * Return: path to file if found, otherwise NULL
  */
+
 char *search_dir(char *filename, char *dir)
 {
 	DIR *d;
 	struct dirent *entry;
 	char *path;
+	size_t length;
 
-	path = malloc(1000);
+	/* +2 for '/' and '\0' */
+	length = strlen(dir) + strlen(filename) + 2;
+	path = malloc(length);
 
 	if (!path)
 	{
 		perror("malloc");
-		return (NULL);;
+		return (NULL);
 	}
 
 	d = opendir(dir);
@@ -28,7 +33,7 @@ char *search_dir(char *filename, char *dir)
 			if (strcmp(entry->d_name, filename) == 0)
 			{
 		/* make new path using a buffer with enough capacity to hold result */
-				snprintf(path, 1000, "%s/%s", dir , filename);
+				snprintf(path, 1000, "%s/%s", dir, filename);
 				closedir(d);
 				return (path);
 			}
@@ -43,10 +48,11 @@ char *search_dir(char *filename, char *dir)
 
 /**
  * search_path - search for a file inside PATH
- * @filename:
- * @env:
+ * @filename: name of file to search for
+ * @env: environment variable PATH
  * Return: path to file
  */
+
 char *search_path(char *filename, char **env)
 {
 	char *path;
@@ -70,6 +76,8 @@ char *search_path(char *filename, char **env)
 		i++;
 	}
 
+	path = strdup(env[i] + 5);
+
 	if (!path)
 	{
 		fprintf(stderr, "Error: PATH environment variable not found\n");
@@ -81,9 +89,14 @@ char *search_path(char *filename, char **env)
 	{
 		full_path = search_dir(filename, dir);
 		if (full_path)
+		{
+			free(path);
 			return (full_path);
+		}
 		dir = strtok(NULL, ":");
 	}
 
+	free(path);
+
 	return (NULL);
-}
+} 
