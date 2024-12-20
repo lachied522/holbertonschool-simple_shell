@@ -1,3 +1,9 @@
+
+![Simple_Shell](https://github.com/user-attachments/assets/4a0a3253-80f0-432d-90e6-c0b515b40dee)
+
+___
+
+
 # C - SIMPLE SHELL
 The Simple Shell is a custom version of a UNIX-like command-line interpreter. It supports basic commands, executes programs, and interacts with the underlying system.
 
@@ -12,7 +18,7 @@ The Simple Shell is a custom version of a UNIX-like command-line interpreter. It
 6. [Visual Workflow](#visual-workflow)
 7. [Additional Notes](#additional-notes)
 8. [Contributor Guidelines](#contributor-guidelines)
-9. [Acknowledgments](#acknowledgments)
+9. [Contact](#contact)
 
 ## Setup Instructions
 
@@ -85,12 +91,12 @@ The project is implemented in C, leveraging the following libraries:
     -   Purpose: Reads and tokenizes user input.
         
     -   Key Points:
-
-	- Dynamically allocates memory.
-	    
-	- Removes any trailing newline if present.
-	    
-	- Handles EOF and invalid inputs.
+        
+      	- Dynamically allocates memory.
+            
+        - Removes any trailing newline if present.
+     
+        - Handles EOF and invalid inputs.
             
 2.  ***search_path.c*** 
     
