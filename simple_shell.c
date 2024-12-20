@@ -101,7 +101,11 @@ int main(int argc, char *argv[], char **env)
 		/*Handling no input or whitespace " " as arguments*/
 
 		if (arguments == NULL || arguments[0] == NULL)
+		{
+			printf("OK\n");
+			free_memory(arguments);
 			continue;
+		}
 		if (arguments[0][0] == '\0' || handle_whitespace(arguments[0]))
 		{
 			free_memory(arguments);
