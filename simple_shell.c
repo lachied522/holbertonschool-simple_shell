@@ -115,7 +115,7 @@ int main(int argc, char *argv[], char **env)
 		
 		execute(arguments, env);
 		
-		free(arguments);
+		free_memory(arguments);
 	}
 
 	return (0);
