@@ -1,5 +1,5 @@
 
-![Simple_Shell](https://github.com/user-attachments/assets/ac4788ce-bdd6-4ba9-8057-c399fb91280d)
+<div align="center">![Simple_Shell](https://github.com/user-attachments/assets/ac4788ce-bdd6-4ba9-8057-c399fb91280d)</div>
 
 ___
 
