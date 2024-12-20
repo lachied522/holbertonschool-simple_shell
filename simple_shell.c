@@ -45,15 +45,16 @@ void execute(char **arguments, char **env)
 	{
 		execve(command, arguments, env);
 		perror("execve");
-		free(command);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		wait(&status);
 	}
+	/* Only free if `command` was dynamically allocated by search_path with the variable (full_path) */
+	if (command != arguments[0])
+                free(command);
 
-	free(command);
 }
 
 /**
@@ -66,6 +67,7 @@ void execute(char **arguments, char **env)
 int main(int argc, char *argv[], char **env)
 {
 	char **arguments;
+	int i = 0;
 
 	/* unused variables */
 	(void)argc;
@@ -86,10 +88,16 @@ int main(int argc, char *argv[], char **env)
 
 		if (strcmp(arguments[0], "exit") == 0)
 		{
+			for (i = 0; arguments[i] != NULL; i++)
+				free(arguments[i]);
 			free(arguments);
 			break;
 		}
+		
 		execute(arguments, env);
+		
+		for (i = 0; arguments[i] != NULL; i++)
+                                free(arguments[i]);
 		free(arguments);
 	}
 
