@@ -8,6 +8,22 @@ void handle_sigint(int sig)
 	fflush(stdout);
 }
 
+bool handle_whitespace(char *str)
+{
+	int i = 0;
+
+	while (str[i] != '\0')
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			/* If at least one character is not tab or " " */
+			return false;
+		i++;
+	}
+	/* If all character are either tab or " " */
+	return true;
+
+}
+
 /*
  * execute - forks and executes process
  * @arguments: arguments to execute
@@ -87,7 +103,7 @@ int main(int argc, char *argv[], char **env)
 
 		if (arguments == NULL || arguments[0] == NULL)
 			continue;
-		if (arguments[0][0] == '\0' || strspn(arguments[0], " \t") == strlen(arguments[0]))
+		if (arguments[0][0] == '\0' || handle_whitespace(arguments[0]))
 		{				
 			for (i = 0; arguments[i] != NULL; i++)
                                 free(arguments[i]);
