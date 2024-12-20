@@ -83,9 +83,17 @@ int main(int argc, char *argv[], char **env)
 
 		arguments = get_user_input();
 
-		if (arguments == NULL)
-			break;
+		/*Handling no input or whitespace " " as arguments*/
 
+		if (arguments == NULL || arguments[0] == NULL)
+			continue;
+		if (arguments[0][0] == '\0' || strspn(arguments[0], " \t") == strlen(arguments[0]))
+		{				
+			for (i = 0; arguments[i] != NULL; i++)
+                                free(arguments[i]);
+                        free(arguments);
+                        continue;
+		}
 		if (strcmp(arguments[0], "exit") == 0)
 		{
 			for (i = 0; arguments[i] != NULL; i++)
