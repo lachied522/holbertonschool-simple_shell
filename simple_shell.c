@@ -83,7 +83,6 @@ void execute(char **arguments, char **env)
 int main(int argc, char *argv[], char **env)
 {
 	char **arguments;
-	int i = 0;
 
 	/* unused variables */
 	(void)argc;
@@ -104,24 +103,18 @@ int main(int argc, char *argv[], char **env)
 		if (arguments == NULL || arguments[0] == NULL)
 			continue;
 		if (arguments[0][0] == '\0' || handle_whitespace(arguments[0]))
-		{				
-			for (i = 0; arguments[i] != NULL; i++)
-                                free(arguments[i]);
-                        free(arguments);
-                        continue;
+		{
+			free_memory(arguments);
+			continue;
 		}
 		if (strcmp(arguments[0], "exit") == 0)
 		{
-			for (i = 0; arguments[i] != NULL; i++)
-				free(arguments[i]);
-			free(arguments);
+                        free_memory(arguments);
 			break;
 		}
 		
 		execute(arguments, env);
 		
-		for (i = 0; arguments[i] != NULL; i++)
-                                free(arguments[i]);
 		free(arguments);
 	}
 
