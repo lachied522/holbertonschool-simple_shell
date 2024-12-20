@@ -98,16 +98,15 @@ int main(int argc, char *argv[], char **env)
 
 		arguments = get_user_input();
 
-		/*Handling no input or whitespace " " as arguments*/
-
 		if (arguments == NULL || arguments[0] == NULL)
 		{
-			printf("OK\n");
 			free_memory(arguments);
 			continue;
 		}
 		if (arguments[0][0] == '\0' || handle_whitespace(arguments[0]))
 		{
+			if (isatty(0))
+				printf("OK\n");
 			free_memory(arguments);
 			continue;
 		}
