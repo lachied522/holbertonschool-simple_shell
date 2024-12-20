@@ -1,8 +1,7 @@
 
-![Simple_Shell](https://github.com/user-attachments/assets/4a0a3253-80f0-432d-90e6-c0b515b40dee)
+![Simple_Shell](https://github.com/user-attachments/assets/ac4788ce-bdd6-4ba9-8057-c399fb91280d)
 
 ___
-
 
 # C - SIMPLE SHELL
 The Simple Shell is a custom version of a UNIX-like command-line interpreter. It supports basic commands, executes programs, and interacts with the underlying system.
