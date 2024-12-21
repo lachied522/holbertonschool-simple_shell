@@ -87,6 +87,7 @@ void execute(char **arguments, char **env)
 int main(int argc, char *argv[], char **env)
 {
 	char **arguments;
+	int i = 0;
 
 	/* unused variables */
 	(void)argc;
@@ -112,6 +113,16 @@ int main(int argc, char *argv[], char **env)
                         free_memory(arguments);
 			return (exit_status);;
 		}
+		if (strcmp(arguments[0], "env") == 0)
+                {
+			while (env[i] != NULL)
+			{
+        			printf("%s\n", env[i]);
+        			i++;
+			}
+                        free_memory(arguments);
+                        return (exit_status);;
+                }
 		
 		execute(arguments, env);
 		
