@@ -1,6 +1,8 @@
 #include <signal.h>
 #include "main.h"
 
+static int exit_status = 0;
+
 void handle_sigint(int sig)
 {
 	(void)sig;
@@ -29,6 +31,7 @@ bool handle_whitespace(char *str)
  * @arguments: arguments to execute
  * @env: environment variables of system
  */
+
 void execute(char **arguments, char **env)
 {
 	char *command;
@@ -66,6 +69,10 @@ void execute(char **arguments, char **env)
 	else
 	{
 		wait(&status);
+		if (WIFEXITED(status))
+			exit_status = WEXITSTATUS(status);
+		else
+			exit_status = 1;
 	}
 	/* Only free if `command` was dynamically allocated by search_path with the variable (full_path) */
 	if (command != arguments[0])
@@ -107,10 +114,8 @@ int main(int argc, char *argv[], char **env)
 		}
 		if (strcmp(arguments[0], "exit") == 0)
 		{
-			if (isatty(0))
-				printf("OK\n");
                         free_memory(arguments);
-			break;
+			return (exit_status);;
 		}
 		
 		execute(arguments, env);
