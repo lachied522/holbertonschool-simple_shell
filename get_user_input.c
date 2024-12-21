@@ -11,7 +11,7 @@ char **get_user_input()
 	size_t n = 0, size = 32;
 	char *token;
 	char **arguments;
-	int i = 0; 
+	int i = 0;
 
 	arguments = malloc(sizeof(char *) * size);
 	if (!arguments)
@@ -65,4 +65,4 @@ char **get_user_input()
 	free(buffer);
 
 	return (arguments);
-} 
+}
