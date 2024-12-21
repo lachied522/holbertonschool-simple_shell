@@ -1,7 +1,7 @@
 
 #include "main.h"
 
-/*
+/**
  * search_dir - searches directory for command
  * @filename: name of file command is based on
  * @dir: directory to search command
@@ -40,7 +40,6 @@ char *search_dir(char *filename, char *dir)
 		}
 		closedir(d);
 	}
-
 	free(path);
 
 	return (NULL);
@@ -55,9 +54,9 @@ char *search_dir(char *filename, char *dir)
 
 char *search_path(char *filename, char **env)
 {
-	char *path;
 	char *full_path;
 	char *dir;
+	char *path;
 	int i;
 
 	path = NULL;
@@ -76,11 +75,17 @@ char *search_path(char *filename, char **env)
 		i++;
 	}
 
-	path = strdup(env[i] + 5);
+	if (path == NULL)
+	{
+		fprintf(stderr, "Error: PATH environment variable not found\n");
+		return (NULL);
+	}
+
+	path = strdup(path);
 
 	if (!path)
 	{
-		fprintf(stderr, "Error: PATH environment variable not found\n");
+		perror("strdup");
 		return (NULL);
 	}
 
@@ -99,4 +104,4 @@ char *search_path(char *filename, char **env)
 	free(path);
 
 	return (NULL);
-} 
+}

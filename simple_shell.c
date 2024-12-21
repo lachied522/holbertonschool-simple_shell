@@ -1,6 +1,13 @@
 #include <signal.h>
 #include "main.h"
 
+static int exit_status;
+
+/**
+ * handle_sigint - Functions that handles "CTRL + C " command
+ * @sig: Signal number (explicitly unused in this fucntion)
+ */
+
 void handle_sigint(int sig)
 {
 	(void)sig;
@@ -8,11 +15,35 @@ void handle_sigint(int sig)
 	fflush(stdout);
 }
 
-/*
+/**
+ * handle_space - Functions that forks and executes process
+ * @str: String to check
+ * Return: False if the command has at least one character
+ * different than " " or "tab", True if otherwise
+ */
+
+bool handle_space(char *str)
+{
+	int i = 0;
+
+	while (str[i] != '\0')
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			/* If at least one character is not tab or " " */
+			return (false);
+		i++;
+	}
+	/* If all character are either tab or " " */
+	return (true);
+
+}
+
+/**
  * execute - forks and executes process
  * @arguments: arguments to execute
  * @env: environment variables of system
  */
+
 void execute(char **arguments, char **env)
 {
 	char *command;
@@ -45,15 +76,17 @@ void execute(char **arguments, char **env)
 	{
 		execve(command, arguments, env);
 		perror("execve");
-		free(command);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
 		wait(&status);
+		if (WIFEXITED(status))
+			exit_status = WEXITSTATUS(status);
+		else
+			exit_status = 1;
 	}
 
-	free(command);
 }
 
 /**
@@ -66,6 +99,7 @@ void execute(char **arguments, char **env)
 int main(int argc, char *argv[], char **env)
 {
 	char **arguments;
+	int i = 0;
 
 	/* unused variables */
 	(void)argc;
@@ -81,17 +115,35 @@ int main(int argc, char *argv[], char **env)
 
 		arguments = get_user_input();
 
-		if (arguments == NULL)
-			break;
-
+		if (arguments == NULL || arguments[0] == NULL || handle_space(arguments[0]))
+		{
+			free_memory(arguments);
+			continue;
+		}
 		if (strcmp(arguments[0], "exit") == 0)
 		{
-			free(arguments);
-			break;
+			free_memory(arguments);
+			return (exit_status);
 		}
+		/**
+		 * Create an independent way to handle the excecution
+		 * of "env"  in case the var "PATH" is remove
+		 */
+		if (strcmp(arguments[0], "env") == 0)
+		{
+			while (env[i] != NULL)
+			{
+				printf("%s\n", env[i]);
+				i++;
+			}
+			free_memory(arguments);
+			return (exit_status);
+		}
+
 		execute(arguments, env);
-		free(arguments);
+
+		free_memory(arguments);
 	}
 
 	return (0);
-} 
+}

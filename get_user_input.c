@@ -11,7 +11,7 @@ char **get_user_input()
 	size_t n = 0, size = 32;
 	char *token;
 	char **arguments;
-	int i = 0, j = 0;
+	int i = 0;
 
 	arguments = malloc(sizeof(char *) * size);
 	if (!arguments)
@@ -43,6 +43,7 @@ char **get_user_input()
 			{
 				perror("realloc");
 				free(buffer);
+				free_memory(arguments);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -52,9 +53,7 @@ char **get_user_input()
 		{
 			perror("strdup");
 			free(buffer);
-			for (j = 0; j < i; j++)
-				free(arguments[j]);
-			free(arguments);
+			free_memory(arguments);
 			exit(EXIT_FAILURE);
 		}
 
@@ -66,4 +65,4 @@ char **get_user_input()
 	free(buffer);
 
 	return (arguments);
-} 
+}
