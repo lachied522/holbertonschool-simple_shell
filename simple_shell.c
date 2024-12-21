@@ -107,8 +107,6 @@ int main(int argc, char *argv[], char **env)
 
 		if (arguments == NULL || arguments[0] == NULL || handle_whitespace(arguments[0]))
 		{
-			if (isatty(0))
-				printf("OK\n");
 			free_memory(arguments);
 			continue;
 		}
