@@ -75,8 +75,6 @@ void execute(char **arguments, char **env)
 			exit_status = 1;
 	}
 	/* Only free if `command` was dynamically allocated by search_path with the variable (full_path) */
-	if (command != arguments[0])
-                free(command);
 
 }
 
