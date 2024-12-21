@@ -77,9 +77,7 @@ char *search_path(char *filename, char **env)
 
 	if (path == NULL)
 	{
-		fprintf(stderr, "Error: PATH environment variable not found\n");
 		return (NULL);
-
 	}
 	
 	path = strdup(path);
