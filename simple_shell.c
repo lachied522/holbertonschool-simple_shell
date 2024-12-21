@@ -107,6 +107,8 @@ int main(int argc, char *argv[], char **env)
 		}
 		if (strcmp(arguments[0], "exit") == 0)
 		{
+			if (isatty(0))
+				printf("OK\n");
                         free_memory(arguments);
 			break;
 		}
