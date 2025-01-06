@@ -1,5 +1,10 @@
 #include "main.h"
 
+/**
+ * free_memory - free an array from memory
+ * @memory: pointer to memory array
+ * Return: nothing
+ */
 void free_memory(char **memory)
 {
 	int i = 0;
