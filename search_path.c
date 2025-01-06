@@ -1,4 +1,3 @@
-
 #include "main.h"
 
 /**
@@ -7,7 +6,6 @@
  * @dir: directory to search command
  * Return: path to file if found, otherwise NULL
  */
-
 char *search_dir(char *filename, char *dir)
 {
 	DIR *d;
@@ -46,46 +44,54 @@ char *search_dir(char *filename, char *dir)
 }
 
 /**
+ * get_path_variable - gets PATH variable from enviornment
+ * @env: environment
+ * Return: PATH variable
+ */
+char *get_path_variable(char **env)
+{
+	char *path;
+	int i = 0;
+
+	while (env[i] != NULL)
+	{
+		if (strncmp(env[i], "PATH=", 5) == 0)
+		{
+			/* this skips the "PATH=" pref */
+			path = strdup(env[i] + 5);
+
+			if (path == NULL)
+			{
+				perror("strdup");
+				return (NULL);
+			}
+
+			return (path);
+		}
+		i++;
+	}
+
+	return (NULL);
+}
+
+/**
  * search_path - search for a file inside PATH
  * @filename: name of file to search for
  * @env: environment variable PATH
  * Return: path to file
  */
-
 char *search_path(char *filename, char **env)
 {
-	char *full_path;
+	char *full_path = NULL;
 	char *dir;
 	char *path;
-	int i;
+	int i = 0;
 
-	path = NULL;
-	full_path = NULL;
-	i = 0;
-
-	while (env[i] != NULL)
-	{
-		/* if first 5 characters of env[i] and PATH= match */
-		if (strncmp(env[i], "PATH=", 5) == 0)
-		{
-			/* this skips the "PATH=" prefix */
-			path = env[i] + 5;
-			break;
-		}
-		i++;
-	}
+	path = get_path_variable(env);
 
 	if (path == NULL)
 	{
 		fprintf(stderr, "Error: PATH environment variable not found\n");
-		return (NULL);
-	}
-
-	path = strdup(path);
-
-	if (!path)
-	{
-		perror("strdup");
 		return (NULL);
 	}
 

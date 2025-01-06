@@ -43,7 +43,6 @@ bool handle_space(char *str)
  * @arguments: arguments to execute
  * @env: environment variables of system
  */
-
 void execute(char **arguments, char **env)
 {
 	char *command;
@@ -58,7 +57,6 @@ void execute(char **arguments, char **env)
 	else
 	{
 		command = search_path(arguments[0], env);
-
 		if (command == NULL)
 		{
 			fprintf(stderr, "%s: Command not found\n", arguments[0]);
@@ -67,11 +65,8 @@ void execute(char **arguments, char **env)
 	}
 
 	pid = fork();
-
 	if (pid < 0)
-	{
 		perror("Error");
-	}
 	else if (pid == 0)
 	{
 		execve(command, arguments, env);
@@ -96,52 +91,40 @@ void execute(char **arguments, char **env)
  * @env: environment variables of system
  * Return: Always 0.
  */
-int main(int argc, char *argv[], char **env)
+int main(
+	__attribute__((unused)) int argc,
+	__attribute__((unused)) char *argv[],
+	char **env
+)
 {
 	char **arguments;
 	int i = 0;
 
-	/* unused variables */
-	(void)argc;
-	(void)argv;
-
 	signal(SIGINT, handle_sigint);
-
 	while (1)
 	{
-		/* in interactive move */
+		/* in interactive mode */
 		if (isatty(0))
 			printf("#cisfun$ ");
 
 		arguments = get_user_input();
-
-		if (arguments == NULL || arguments[0] == NULL || handle_space(arguments[0]))
+		if (
+			arguments == NULL ||
+			arguments[0] == NULL ||
+			handle_space(arguments[0])
+		)
 		{
 			free_memory(arguments);
 			continue;
 		}
+
 		if (strcmp(arguments[0], "exit") == 0)
 		{
 			free_memory(arguments);
 			return (exit_status);
 		}
-		/**
-		 * Create an independent way to handle the excecution
-		 * of "env"  in case the var "PATH" is remove
-		 */
-		if (strcmp(arguments[0], "env") == 0)
-		{
-			while (env[i] != NULL)
-			{
-				printf("%s\n", env[i]);
-				i++;
-			}
-			free_memory(arguments);
-			return (exit_status);
-		}
 
 		execute(arguments, env);
-
 		free_memory(arguments);
 	}
 
