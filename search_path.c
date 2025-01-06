@@ -85,7 +85,6 @@ char *search_path(char *filename, char **env)
 	char *full_path = NULL;
 	char *dir;
 	char *path;
-	int i = 0;
 
 	path = get_path_variable(env);
 
