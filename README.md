@@ -14,10 +14,9 @@ The Simple Shell is a custom version of a UNIX-like command-line interpreter. It
 3. [Development Tools](#development-tools)
 4. [Key Components](#key-components)
 5. [Examples and Features](#examples-and-features)
-6. [Visual Workflow](#visual-workflow)
-7. [Additional Notes](#additional-notes)
-8. [Contributor Guidelines](#contributor-guidelines)
-9. [Contact](#contact)
+6. [Additional Notes](#additional-notes)
+7. [Contributor Guidelines](#contributor-guidelines)
+8. [Contact](#contact)
 
 ## Setup Instructions
 
@@ -147,15 +146,6 @@ The table below highlights some of the key features of the Simple Shell with cor
 | Handle Invalid Commands |     `holberton`     |      Displays "Command not found" error.     |   
 |     Signal Handling     |    Press `Ctrl+C`   | Gracefully ignores the signal and continues. | 
 
-## Visual Workflow
-
-```mermaid
-graph LR
-A[Square Rect] -- Link text --> B((Circle))
-A --> C(Round Rect)
-B --> D{Rhombus}
-C --> D
-```
 
 ## Additional Notes
 
