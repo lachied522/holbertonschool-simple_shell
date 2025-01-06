@@ -98,7 +98,6 @@ int main(
 )
 {
 	char **arguments;
-	int i = 0;
 
 	signal(SIGINT, handle_sigint);
 	while (1)
