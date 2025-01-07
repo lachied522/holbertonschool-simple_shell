@@ -39,6 +39,22 @@ bool handle_space(char *str)
 }
 
 /**
+ * print_env - print environment
+ * @env: environment
+ * Return: nothing
+ */
+void print_env(char **env)
+{
+	int i = 0;
+
+	while (env[i] != NULL)
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+}
+
+/**
  * execute - forks and executes process
  * @arguments: arguments to execute
  * @env: environment variables of system
@@ -81,7 +97,6 @@ void execute(char **arguments, char **env)
 		else
 			exit_status = 1;
 	}
-
 }
 
 /**
@@ -123,7 +138,12 @@ int main(
 			return (exit_status);
 		}
 
-		execute(arguments, env);
+		if (strcmp(arguments[0], "env") == 0)
+		{
+			print_env(env);
+		} else
+			execute(arguments, env);
+
 		free_memory(arguments);
 	}
 

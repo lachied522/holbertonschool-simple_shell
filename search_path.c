@@ -1,6 +1,19 @@
 #include "main.h"
 
 /**
+ * get_full_path - concatenate dir and filename and store in buffer
+ * @buffer: buffer
+ * @dir: directory name
+ * @filename: file name
+ * Return: pointer to buffer
+ */
+char *get_full_path(char *buffer, char *dir, char *filename)
+{
+	snprintf(buffer, strlen(dir) + strlen(filename) + 2, "%s/%s", dir, filename);
+	return (buffer);
+}
+
+/**
  * search_dir - searches directory for command
  * @filename: name of file command is based on
  * @dir: directory to search command
@@ -25,8 +38,7 @@ char *search_dir(char *filename, char *dir)
 		{
 			if (strcmp(entry->d_name, filename) == 0)
 			{
-				/* make new path using a buffer with enough capacity to hold result */
-				snprintf(full_path, strlen(dir) + strlen(filename) + 2, "%s/%s", dir, filename);
+				get_full_path(full_path, dir, filename);
 				closedir(d);
 				return (full_path);
 			}
